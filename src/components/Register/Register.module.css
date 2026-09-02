@@ -1,0 +1,189 @@
+/* Регистрация: та же карточка, что и на входе, плюс переключатель роли. */
+
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 12px;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 28px 24px;
+}
+
+.title {
+  margin: 0 0 2px;
+  font-family: var(--font-display);
+  /* Крупный плакатный заголовок страницы — главный типографический акцент. */
+  font-size: clamp(1.7rem, 4vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.02;
+  text-transform: uppercase;
+  letter-spacing: var(--title-tracking);
+  color: var(--color-ink);
+}
+
+.subtitle {
+  margin: 0 0 22px;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── переключатель роли ── */
+.roleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.roleCaption {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--label-tracking);
+  color: var(--color-muted);
+}
+
+.roleRow {
+  display: flex;
+  gap: 8px;
+}
+
+.rolePill {
+  flex: 1;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-ink);
+  border-radius: var(--pill-radius);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.rolePill:hover:not(:disabled) {
+  border-color: var(--color-ink);
+}
+
+.rolePillActive {
+  color: var(--color-surface);
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+}
+
+.rolePill:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--label-tracking);
+  color: var(--color-muted);
+}
+
+.input {
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--color-ink);
+  padding: 10px 12px;
+  border: 1px solid var(--color-field-border);
+  border-radius: var(--field-radius);
+  background: var(--color-surface);
+  min-width: 0;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-ink);
+  box-shadow: var(--focus-ring);
+}
+
+.input:disabled {
+  background: var(--color-surface-alt);
+  cursor: not-allowed;
+}
+
+.hint {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  text-transform: none;
+}
+
+.error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-danger);
+}
+
+.submit {
+  margin-top: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+  color: var(--color-surface);
+  background: var(--color-ink);
+  border: none;
+  border-radius: var(--pill-radius);
+  padding: 11px 22px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--color-accent);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.footer {
+  margin: 16px 0 0;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.footer + .footer {
+  margin-top: 8px;
+}
+
+.footerLink {
+  font-weight: 700;
+  color: var(--color-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-ink);
+}
+
+.footerLink:hover {
+  border-bottom-color: var(--color-ink);
+}

@@ -1,0 +1,317 @@
+/* Каркас кабинета: чёрная фиксированная шапка + сайдбар, на мобилке — бургер и drawer. */
+
+.layout {
+  min-height: 100vh;
+}
+
+.headerSafeArea {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 71;
+  height: env(safe-area-inset-top, 0px);
+  background: var(--color-ink);
+  pointer-events: none;
+}
+
+.header {
+  position: fixed;
+  top: env(safe-area-inset-top, 0px);
+  left: 0;
+  right: 0;
+  z-index: 70;
+  padding: 1rem 0;
+  background: var(--color-ink);
+  /* Акцентная черта под шапкой — тот же приём, что и в референсах: один
+     насыщенный цвет, разрезающий чёрное поле. Её 3px учтены в --header-height. */
+  border-bottom: 3px solid var(--color-accent);
+}
+
+.headerInner {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 41px;
+  padding: 0 16px;
+}
+
+.headerLeft {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.user {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  min-width: 0;
+}
+
+.userName {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.userRole {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.userRole::before {
+  content: '· ';
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.burger {
+  display: none;
+}
+
+.sidebar {
+  position: fixed;
+  top: calc(var(--header-height) + env(safe-area-inset-top, 0px) + 20px);
+  left: 20px;
+  bottom: 20px;
+  z-index: 60;
+  width: 224px;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 1.25rem 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.section {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sectionTitle {
+  margin: 0 0 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  padding: calc(0.55rem + 1px) 0.9rem calc(0.55rem - 1px);
+  border-radius: var(--pill-radius);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.navLink:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-ink);
+}
+
+.navLink:focus {
+  outline: none;
+}
+
+.navLink:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* Активный пункт — залитая чернильная пилюля: тот же контраст, что у кнопок. */
+.navLinkActive,
+.navLinkActive:hover {
+  background: var(--color-ink);
+  color: var(--color-surface);
+}
+
+.logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  margin-top: auto;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--color-field-border);
+  border-radius: var(--pill-radius);
+  background: transparent;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+  color: var(--color-muted);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.logout:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.content {
+  margin-left: 244px;
+  padding-top: calc(var(--header-height) + env(safe-area-inset-top, 0px) + 12px);
+  min-width: 0;
+}
+
+.backdrop {
+  display: none;
+}
+
+.drawer {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+
+  .content {
+    margin-left: 0;
+  }
+
+  /* Роль на узком экране не помещается рядом с бургером — оставляем только имя. */
+  .userRole {
+    display: none;
+  }
+
+  .userName {
+    max-width: 120px;
+  }
+
+  .burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 41px;
+    height: 41px;
+    padding: 10px 9px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.14);
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .burgerLine {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .burgerLineTop {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .burgerLineHidden {
+    opacity: 0;
+  }
+
+  .burgerLineBottom {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    top: calc(var(--header-height) + env(safe-area-inset-top, 0px));
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+  }
+
+  .backdropOpen {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .drawer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: calc(var(--header-height) + env(safe-area-inset-top, 0px));
+    left: 0;
+    bottom: 0;
+    z-index: 60;
+    width: 260px;
+    max-width: 80vw;
+    background: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    border-radius: 0 var(--card-radius) var(--card-radius) 0;
+    padding: 1.25rem 1rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+    box-shadow: 6px 6px 0 rgba(11, 11, 12, 0.18);
+    transform: translateX(calc(-100% - 8px));
+    visibility: hidden;
+    transition: transform 0.28s ease, visibility 0.28s ease;
+  }
+
+  .drawerOpen {
+    transform: translateX(0);
+    visibility: visible;
+  }
+}
+
+@media (max-width: 520px) {
+  .userName {
+    display: none;
+  }
+
+  .logoLink {
+    font-size: 1rem;
+  }
+}

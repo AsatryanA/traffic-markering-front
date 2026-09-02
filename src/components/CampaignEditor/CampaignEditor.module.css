@@ -1,0 +1,514 @@
+/* Редактор объявления: сводка с бюджетом, форма условий и список откликов. */
+
+.wrap {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: 1rem 12px 3rem;
+}
+
+@media (min-width: 769px) {
+  .wrap {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+.backLink {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+  color: var(--color-muted);
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.backLink:hover {
+  color: var(--color-ink);
+}
+
+.title {
+  font-family: var(--font-display);
+  /* Крупный плакатный заголовок страницы — главный типографический акцент. */
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.02;
+  text-transform: uppercase;
+  letter-spacing: var(--title-tracking);
+  color: var(--color-ink);
+  margin: 0 0 18px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 20px;
+  margin-bottom: 22px;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--title-tracking);
+  color: var(--color-ink);
+  margin: 0 0 14px;
+}
+
+.summaryHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.rate {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.rateUnit {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.summaryMeta {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* ── форма ── */
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px 16px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--label-tracking);
+  color: var(--color-muted);
+}
+
+/* Заголовок и описание занимают всю ширину сетки — их неудобно писать в узкой колонке. */
+.labelWide {
+  grid-column: 1 / -1;
+}
+
+.input {
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--color-ink);
+  padding: 9px 12px;
+  border: 1px solid var(--color-field-border);
+  border-radius: var(--field-radius);
+  background: var(--color-surface);
+  min-width: 0;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-ink);
+  box-shadow: var(--focus-ring);
+}
+
+.textarea {
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--color-ink);
+  padding: 10px 12px;
+  border: 1px solid var(--color-field-border);
+  border-radius: var(--field-radius);
+  background: var(--color-surface);
+  resize: vertical;
+  min-height: 120px;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-ink);
+  box-shadow: var(--focus-ring);
+}
+
+.hint {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  text-transform: none;
+}
+
+.error {
+  color: var(--color-danger);
+  font-size: 0.85rem;
+  margin: 12px 0 0;
+}
+
+/* «Создать объявление» + «Отмена» в одну строку не влезают на узком экране —
+   разрешаем переносить, иначе кнопка отмены уезжает за край. */
+.formActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.submit {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+  color: #fff;
+  background: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  border-radius: var(--pill-radius);
+  padding: 9px 21px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+
+.submit:hover:not(:disabled) {
+  background: var(--color-accent);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitIdle:disabled {
+  background: transparent;
+  border-color: var(--color-field-border);
+  color: var(--color-muted);
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+  text-decoration: none;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-ink);
+  border-radius: var(--pill-radius);
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.cancelBtn:hover {
+  background: var(--color-ink);
+  color: #fff;
+}
+
+/* ── отклики ── */
+.banner {
+  background: var(--color-danger-soft);
+  border-left: 3px solid var(--color-danger);
+  color: var(--color-danger);
+  border-radius: var(--field-radius);
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  margin: 0 0 12px;
+}
+
+.message {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  margin: 8px 0;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 4px;
+  border-top: 1px solid var(--color-border);
+}
+
+.item:first-child {
+  border-top: none;
+}
+
+.itemHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.creator {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.status {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--label-tracking);
+  color: #fff;
+  background: var(--color-muted);
+  border-radius: var(--pill-radius);
+  padding: 2px 9px;
+}
+
+.statusPending {
+  background: var(--color-ink-soft);
+}
+
+.statusApproved {
+  background: var(--color-success);
+}
+
+.statusRejected {
+  background: var(--color-danger);
+}
+
+.statusCompleted {
+  background: var(--color-ink);
+}
+
+.itemMeta {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.videoLink {
+  font-size: 0.85rem;
+  color: var(--color-ink);
+  word-break: break-all;
+}
+
+.comment {
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  margin: 0;
+}
+
+.numbers {
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.actionBtn,
+.rejectBtn {
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--label-tracking);
+  border-radius: var(--pill-radius);
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.actionBtn {
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-ink);
+}
+
+.actionBtn:hover:not(:disabled) {
+  background: var(--color-ink);
+  color: #fff;
+}
+
+.rejectBtn {
+  color: var(--color-danger);
+  background: var(--color-surface);
+  border: 1px solid var(--color-danger);
+}
+
+.rejectBtn:hover:not(:disabled) {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.actionBtn:disabled,
+.rejectBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.photoRow {
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.photoPreview {
+  position: relative;
+  width: 220px;
+  aspect-ratio: 16 / 9;
+  flex: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-field-border);
+  border-radius: var(--field-radius);
+  background: var(--color-surface-alt);
+}
+
+.photoBackdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(14px) saturate(1.1);
+  transform: scale(1.25);
+}
+
+.photoImage {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.photoEmpty {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--label-tracking);
+  color: var(--color-muted);
+}
+
+.photoControls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  flex: 1;
+  min-width: 200px;
+}
+
+.photoInput {
+  display: none;
+}
+
+.photoAdd {
+  width: 124px;
+  height: 124px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--color-field-border);
+  border-radius: var(--field-radius);
+  background: var(--color-surface);
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--color-muted);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.photoAdd:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.photoAddBusy,
+.photoAddBusy:hover {
+  border-color: var(--color-field-border);
+  color: var(--color-muted);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: progress;
+}
+
+.progressTrack {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-accent);
+  transition: width 0.2s ease;
+}
+
+.deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+  color: var(--color-danger);
+  background: transparent;
+  border: 1px solid var(--color-danger);
+  border-radius: var(--pill-radius);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.deleteBtn:hover:not(:disabled) {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.deleteBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

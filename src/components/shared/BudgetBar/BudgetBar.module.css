@@ -1,0 +1,58 @@
+/* Шкала бюджета: используется и на публичной доске, и в кабинете заказчика. */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.track {
+  height: 10px;
+  border-radius: var(--pill-radius);
+  background: var(--color-track);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  /* Заливка «электрическим» градиентом акцента — читается как расход бюджета. */
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+  border-radius: var(--pill-radius);
+  transition: width 0.25s ease;
+}
+
+.legend {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+}
+
+.spent {
+  color: var(--color-muted);
+}
+
+.remaining {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.exhausted {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+  color: var(--color-danger);
+}
+
+/* Компактный вариант для карточки на доске. */
+.compact .track {
+  height: 6px;
+}
+
+.compact .legend {
+  font-size: 0.74rem;
+  gap: 6px;
+}
