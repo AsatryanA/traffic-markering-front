@@ -50,54 +50,62 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.wrap}>
-      <div className={styles.card}>
-        <h1 className={styles.title}>вход</h1>
-        <p className={styles.subtitle}>
-          <Logo withText />
-        </p>
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <label className={styles.label}>
-            Логин
-            <input
-              type="email"
-              value={loginValue}
-              onChange={(e) => setLoginValue(e.target.value)}
-              className={styles.input}
-              autoComplete="username"
-              placeholder="you@mail.ru"
-              disabled={loading}
-              autoFocus
-            />
-          </label>
-          <label className={styles.label}>
-            Пароль
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={styles.input}
-              autoComplete="current-password"
-              disabled={loading}
-            />
-          </label>
-          {error && <p className={styles.error}>{error}</p>}
-          <button type="submit" className={styles.submit} disabled={loading}>
-            {loading ? 'Вход…' : 'Войти'}
-          </button>
-        </form>
-        <p className={styles.footer}>
-          нет аккаунта?{' '}
-          <Link to="/register" className={styles.footerLink}>
-            зарегистрироваться
+    <div className={styles.page}>
+      <div className={styles.headerSafeArea} aria-hidden="true" />
+      <header className={styles.header}>
+        <div className={styles.headerInner}>
+          <Link to="/" className={styles.logoLink} aria-label="На доску объявлений">
+            <Logo light withText />
           </Link>
-        </p>
-        <p className={styles.footer}>
-          <Link to="/" className={styles.footerLink}>
-            вернуться на доску объявлений
-          </Link>
-        </p>
-      </div>
+        </div>
+      </header>
+
+      <main className={styles.wrap}>
+        <div className={styles.card}>
+          <h1 className={styles.title}>вход</h1>
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <label className={styles.label}>
+              Логин
+              <input
+                type="email"
+                value={loginValue}
+                onChange={(e) => setLoginValue(e.target.value)}
+                className={styles.input}
+                autoComplete="username"
+                placeholder="you@mail.ru"
+                disabled={loading}
+                autoFocus
+              />
+            </label>
+            <label className={styles.label}>
+              Пароль
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={styles.input}
+                autoComplete="current-password"
+                disabled={loading}
+              />
+            </label>
+            {error && <p className={styles.error}>{error}</p>}
+            <button type="submit" className={styles.submit} disabled={loading}>
+              {loading ? 'Вход…' : 'Войти'}
+            </button>
+          </form>
+          <p className={styles.footer}>
+            нет аккаунта?{' '}
+            <Link to="/register" className={styles.footerLink}>
+              зарегистрироваться
+            </Link>
+          </p>
+          <p className={styles.footer}>
+            <Link to="/" className={styles.footerLink}>
+              вернуться на доску объявлений
+            </Link>
+          </p>
+        </div>
+      </main>
     </div>
   );
 };

@@ -74,14 +74,21 @@ const Register = () => {
   const activeRole = ROLE_OPTIONS.find((option) => option.value === form.role);
 
   return (
-    <div className={styles.wrap}>
-      <div className={styles.card}>
-        <h1 className={styles.title}>регистрация</h1>
-        <p className={styles.subtitle}>
-          <Logo withText />
-        </p>
+    <div className={styles.page}>
+      <div className={styles.headerSafeArea} aria-hidden="true" />
+      <header className={styles.header}>
+        <div className={styles.headerInner}>
+          <Link to="/" className={styles.logoLink} aria-label="На доску объявлений">
+            <Logo light withText />
+          </Link>
+        </div>
+      </header>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
+      <main className={styles.wrap}>
+        <div className={styles.card}>
+          <h1 className={styles.title}>регистрация</h1>
+
+          <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.roleBlock}>
             <span className={styles.roleCaption}>кто вы</span>
             <div className={styles.roleRow} role="group" aria-label="Роль в сервисе">
@@ -152,18 +159,19 @@ const Register = () => {
           </button>
         </form>
 
-        <p className={styles.footer}>
-          уже есть аккаунт?{' '}
-          <Link to="/login" className={styles.footerLink}>
-            войти
-          </Link>
-        </p>
-        <p className={styles.footer}>
-          <Link to="/" className={styles.footerLink}>
-            вернуться на доску объявлений
-          </Link>
-        </p>
-      </div>
+          <p className={styles.footer}>
+            уже есть аккаунт?{' '}
+            <Link to="/login" className={styles.footerLink}>
+              войти
+            </Link>
+          </p>
+          <p className={styles.footer}>
+            <Link to="/" className={styles.footerLink}>
+              вернуться на доску объявлений
+            </Link>
+          </p>
+        </div>
+      </main>
     </div>
   );
 };
