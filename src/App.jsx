@@ -13,6 +13,9 @@ import CustomerCampaigns from './components/CustomerCampaigns/CustomerCampaigns'
 import CampaignEditor from './components/CampaignEditor/CampaignEditor';
 import CreatorApplications from './components/CreatorApplications/CreatorApplications';
 import Profile from './components/Profile/Profile';
+import Info from './components/Info/Info';
+import Privacy from './components/Info/Privacy';
+import Terms from './components/Info/Terms';
 
 // Статические пути приложения. Всё, чего здесь нет и что не подошло под
 // динамические шаблоны ниже, — 404 (и такие страницы закрываем от индексации).
@@ -20,6 +23,9 @@ const KNOWN_PATHS = new Set([
   '/',
   '/login',
   '/register',
+  '/info',
+  '/info/privacy',
+  '/info/terms',
   '/app',
   '/app/board',
   '/app/campaigns',
@@ -44,6 +50,21 @@ const PAGE_SEO = {
   '/register': {
     title: 'регистрация — traffic markering',
     description: 'Регистрация заказчика или криатора в traffic markering.',
+  },
+  '/info': {
+    title: 'о сервисе — traffic markering',
+    description:
+      'Как работает traffic markering: объявления со ставкой за 1000 просмотров, подключение аккаунтов соцсетей и подсчёт просмотров по официальным API площадок.',
+  },
+  '/info/privacy': {
+    title: 'политика конфиденциальности — traffic markering',
+    description:
+      'Какие данные собирает traffic markering, зачем, как они хранятся и как отозвать доступ или удалить учётную запись.',
+  },
+  '/info/terms': {
+    title: 'условия использования — traffic markering',
+    description:
+      'Правила работы на площадке traffic markering: подключение аккаунтов, расчёт просмотров и выплат, запреты и ответственность.',
   },
 };
 
@@ -108,6 +129,9 @@ function App() {
         <Route path="/campaigns/:publicId" element={<CampaignPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/info" element={<Info />} />
+        <Route path="/info/privacy" element={<Privacy />} />
+        <Route path="/info/terms" element={<Terms />} />
         <Route element={<AppLayout />}>
           <Route path="/app" element={<AppHome />} />
           <Route path="/app/board" element={<Board embedded />} />

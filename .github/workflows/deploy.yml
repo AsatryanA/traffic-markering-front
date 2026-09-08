@@ -40,6 +40,7 @@ jobs:
           push: true
           build-args: |
             VITE_API_URL=${{ vars.VITE_API_URL || 'http://localhost:8090' }}
+            TIKTOK_SITE_VERIFICATION=${{ vars.TIKTOK_SITE_VERIFICATION }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha

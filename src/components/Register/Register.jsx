@@ -89,75 +89,75 @@ const Register = () => {
           <h1 className={styles.title}>регистрация</h1>
 
           <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.roleBlock}>
-            <span className={styles.roleCaption}>кто вы</span>
-            <div className={styles.roleRow} role="group" aria-label="Роль в сервисе">
-              {ROLE_OPTIONS.map((option) => (
-                <button
-                  key={option.value}
-                  type="button"
-                  className={
-                    form.role === option.value
-                      ? `${styles.rolePill} ${styles.rolePillActive}`
-                      : styles.rolePill
-                  }
-                  onClick={() => selectRole(option.value)}
-                  aria-pressed={form.role === option.value}
-                  disabled={loading}
-                >
-                  {option.label}
-                </button>
-              ))}
+            <div className={styles.roleBlock}>
+              <span className={styles.roleCaption}>кто вы</span>
+              <div className={styles.roleRow} role="group" aria-label="Роль в сервисе">
+                {ROLE_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={
+                      form.role === option.value
+                        ? `${styles.rolePill} ${styles.rolePillActive}`
+                        : styles.rolePill
+                    }
+                    onClick={() => selectRole(option.value)}
+                    aria-pressed={form.role === option.value}
+                    disabled={loading}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+              <span className={styles.hint}>{activeRole?.hint}</span>
             </div>
-            <span className={styles.hint}>{activeRole?.hint}</span>
-          </div>
 
-          <label className={styles.label}>
-            Почта (она же логин)
-            <input
-              type="email"
-              name="username"
-              value={form.username}
-              onChange={setField}
-              className={styles.input}
-              autoComplete="username"
-              placeholder="you@mail.ru"
-              disabled={loading}
-              autoFocus
-            />
-          </label>
-          <label className={styles.label}>
-            Имя
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={setField}
-              className={styles.input}
-              autoComplete="name"
-              placeholder="Как к вам обращаться"
-              disabled={loading}
-            />
-          </label>
-          <label className={styles.label}>
-            Пароль
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={setField}
-              className={styles.input}
-              autoComplete="new-password"
-              disabled={loading}
-            />
-            <span className={styles.hint}>минимум 6 символов</span>
-          </label>
+            <label className={styles.label}>
+              Почта (она же логин)
+              <input
+                type="email"
+                name="username"
+                value={form.username}
+                onChange={setField}
+                className={styles.input}
+                autoComplete="username"
+                placeholder="you@mail.ru"
+                disabled={loading}
+                autoFocus
+              />
+            </label>
+            <label className={styles.label}>
+              Имя
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={setField}
+                className={styles.input}
+                autoComplete="name"
+                placeholder="Как к вам обращаться"
+                disabled={loading}
+              />
+            </label>
+            <label className={styles.label}>
+              Пароль
+              <input
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={setField}
+                className={styles.input}
+                autoComplete="new-password"
+                disabled={loading}
+              />
+              <span className={styles.hint}>минимум 6 символов</span>
+            </label>
 
-          {error && <p className={styles.error}>{error}</p>}
-          <button type="submit" className={styles.submit} disabled={loading}>
-            {loading ? 'Создаём аккаунт…' : 'Зарегистрироваться'}
-          </button>
-        </form>
+            {error && <p className={styles.error}>{error}</p>}
+            <button type="submit" className={styles.submit} disabled={loading}>
+              {loading ? 'Создаём аккаунт…' : 'Зарегистрироваться'}
+            </button>
+          </form>
 
           <p className={styles.footer}>
             уже есть аккаунт?{' '}

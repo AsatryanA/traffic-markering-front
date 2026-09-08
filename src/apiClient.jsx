@@ -46,7 +46,13 @@ const apiClient = new Api({
 });
 
 apiClient.instance.interceptors.request.use(
-    (config) => config,
+    (config) => {
+        const token = getStoredToken();
+        if (token && config.headers && !config.headers.Authorization) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
     (error) => Promise.reject(error)
 );
 

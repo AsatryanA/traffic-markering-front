@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import apiClient from '../../apiClient';
+import CreatorSocialAccounts from '../CreatorSocialAccounts/CreatorSocialAccounts';
 import { formatDate } from '../../shared/dictionaries';
 import styles from './CreatorProfile.module.css';
 
@@ -210,6 +211,8 @@ const CreatorProfile = () => {
           </button>
         </div>
       </form>
+
+      <CreatorSocialAccounts />
     </div>
   );
 };

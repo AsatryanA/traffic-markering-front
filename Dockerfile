@@ -14,6 +14,8 @@ COPY . .
 # Клиент API (src/shared/api/api.gen.ts) закоммичен, генерировать его в сборке не нужно
 ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
+ARG TIKTOK_SITE_VERIFICATION
+ENV TIKTOK_SITE_VERIFICATION=$TIKTOK_SITE_VERIFICATION
 RUN pnpm run build
 
 FROM nginx:alpine
