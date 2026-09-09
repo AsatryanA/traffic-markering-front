@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import apiClient from '../../apiClient';
 import { formatRubles, formatViews } from '../../shared/money';
@@ -142,9 +143,9 @@ const CreatorApplications = () => {
             Выберите объявление на доске, снимите ролик и приложите на него ссылку —
             деньги начисляются по мере набора просмотров.
           </p>
-          <a href="/" className={styles.primaryBtn}>
+          <Link to="/app/board" className={styles.primaryBtn}>
             К доске объявлений
-          </a>
+          </Link>
         </div>
       ) : (
         <ul className={styles.list}>
