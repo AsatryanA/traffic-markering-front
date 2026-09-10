@@ -13,6 +13,7 @@ import CustomerCampaigns from './components/CustomerCampaigns/CustomerCampaigns'
 import CampaignEditor from './components/CampaignEditor/CampaignEditor';
 import CreatorApplications from './components/CreatorApplications/CreatorApplications';
 import Profile from './components/Profile/Profile';
+import CreatorSocialAccounts from './components/CreatorSocialAccounts/CreatorSocialAccounts';
 import Info from './components/Info/Info';
 import Privacy from './components/Info/Privacy';
 import Terms from './components/Info/Terms';
@@ -31,6 +32,7 @@ const KNOWN_PATHS = new Set([
   '/app/campaigns',
   '/app/applications',
   '/app/profile',
+  '/app/profile/socials',
 ]);
 
 // Динамические маршруты: карточка объявления и редактор объявления.
@@ -39,32 +41,32 @@ const DYNAMIC_PATHS = [/^\/campaigns\/[^/]+$/, /^\/app\/campaigns\/[^/]+$/];
 // Заголовок и описание вкладки по пути. Ключ — уже нормализованный pathname.
 const PAGE_SEO = {
   '/': {
-    title: 'traffic markering — доска рекламных объявлений',
+    title: 'offer — доска рекламных объявлений',
     description:
       'Объявления на рекламные интеграции: ставка за 1000 просмотров и бюджет заказчика. Берите заказ в работу и зарабатывайте на просмотрах.',
   },
   '/login': {
-    title: 'вход — traffic markering',
-    description: 'Вход в личный кабинет traffic markering.',
+    title: 'вход — offer',
+    description: 'Вход в личный кабинет offer.',
   },
   '/register': {
-    title: 'регистрация — traffic markering',
-    description: 'Регистрация заказчика или криатора в traffic markering.',
+    title: 'регистрация — offer',
+    description: 'Регистрация заказчика или криатора в offer.',
   },
   '/info': {
-    title: 'о сервисе — traffic markering',
+    title: 'о сервисе — offer',
     description:
-      'Как работает traffic markering: объявления со ставкой за 1000 просмотров, подключение аккаунтов соцсетей и подсчёт просмотров по официальным API площадок.',
+      'Как работает offer: объявления со ставкой за 1000 просмотров, подключение аккаунтов соцсетей и подсчёт просмотров по официальным API площадок.',
   },
   '/info/privacy': {
-    title: 'политика конфиденциальности — traffic markering',
+    title: 'политика конфиденциальности — offer',
     description:
-      'Какие данные собирает traffic markering, зачем, как они хранятся и как отозвать доступ или удалить учётную запись.',
+      'Какие данные собирает offer, зачем, как они хранятся и как отозвать доступ или удалить учётную запись.',
   },
   '/info/terms': {
-    title: 'условия использования — traffic markering',
+    title: 'условия использования — offer',
     description:
-      'Правила работы на площадке traffic markering: подключение аккаунтов, расчёт просмотров и выплат, запреты и ответственность.',
+      'Правила работы на площадке offer: подключение аккаунтов, расчёт просмотров и выплат, запреты и ответственность.',
   },
 };
 
@@ -93,8 +95,8 @@ function App() {
 
   useEffect(() => {
     const seo = PAGE_SEO[normalizedPathname] || {
-      title: 'traffic markering',
-      description: 'Платформа рекламных интеграций traffic markering.',
+      title: 'offer',
+      description: 'Платформа рекламных интеграций offer.',
     };
     // Личный кабинет и несуществующие адреса в выдаче не нужны.
     const isPrivatePage = !isKnownPage || normalizedPathname.startsWith('/app');
@@ -140,6 +142,7 @@ function App() {
           <Route path="/app/campaigns/:campaignId" element={<CampaignEditor />} />
           <Route path="/app/applications" element={<CreatorApplications />} />
           <Route path="/app/profile" element={<Profile />} />
+          <Route path="/app/profile/socials" element={<CreatorSocialAccounts />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

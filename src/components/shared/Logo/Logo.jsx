@@ -1,19 +1,34 @@
 import React from 'react';
 import styles from './Logo.module.css';
 
+const Bars = () => (
+  <g className={styles.bars}>
+    <rect x="39.13" y="9.31" width="15.45" height="78.18" rx="7.72" />
+    <rect x="19.57" y="24.27" width="15.45" height="63.22" rx="7.72" />
+    <rect x="0" y="39.45" width="15.45" height="48.04" rx="7.72" />
+  </g>
+);
+
+const Word = () => (
+  <g className={styles.word}>
+    <path d="M100.67,88.95c-18.15,0-34.11-11.52-34.11-30.51s15.95-30.49,34.11-30.49,34.11,11.51,34.11,30.49-15.97,30.51-34.11,30.51ZM85.14,58.44c0,11.1,6.95,17.65,15.53,17.65s15.53-6.55,15.53-17.65-6.95-17.64-15.53-17.64-15.53,6.55-15.53,17.64Z" />
+    <path d="M178.73,12.85c-8.27.25-13.75,1.97-13.75,15.1h16.42C181.39,1.49,197.99,0,213.73,0v12.85c-8.27.25-13.75,1.97-13.75,15.1h13.74v12.85h-13.75v48.14h-18.58v-48.14h-16.4v48.14h-18.58v-48.14h-9.25v-12.85h9.25C146.4,1.49,163.01,0,178.73,0v12.85Z" />
+    <path d="M234.72,60.02c.54,9.66,6.1,16.07,14.25,16.07,7.29,0,12.42-4.6,15.13-13.18l16.52,4.16c-4.06,13.84-16.57,21.87-31.65,21.87-18.16,0-32.87-12.56-32.87-30.51s14.71-30.49,32.87-30.49,33.76,13.44,32.85,32.07h-47.09ZM261.56,49.43c-2.29-5.37-6.78-8.63-12.59-8.63s-10.28,3.25-12.59,8.63h25.18Z" />
+    <path d="M346.18,39.35l-8.51,10.93c-16.04-13.78-28.62-4.75-28.62,14.87v23.8h-18.58V29.02l18.58-1.07v9.78c5.29-7.48,11.15-7.86,16.87-7.76,5.95.1,11.09,2.17,20.26,9.38Z" />
+  </g>
+);
+
 const Logo = ({ withText = false, light = false, className = '' }) => (
   <span className={`${styles.logo} ${light ? styles.light : ''} ${className}`}>
     <svg
-      className={styles.mark}
-      viewBox="0 0 100 100"
+      className={styles.svg}
+      viewBox={withText ? '0 0 346.18 88.95' : '0 0 54.58 88.95'}
       role="img"
-      aria-label="social traffic"
+      aria-label="offer"
     >
-      <rect x="54" y="14" width="36" height="16" rx="8" />
-      <rect x="32" y="42" width="58" height="16" rx="8" />
-      <rect className={styles.accent} x="10" y="70" width="80" height="16" rx="8" />
+      <Bars />
+      {withText && <Word />}
     </svg>
-    {withText && <span className={styles.text}>social traffic</span>}
   </span>
 );
 

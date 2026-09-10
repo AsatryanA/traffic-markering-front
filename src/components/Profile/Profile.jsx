@@ -1,4 +1,5 @@
 import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import apiClient from '../../apiClient';
 import CreatorProfile from '../CreatorProfile/CreatorProfile';
 import CustomerProfile from '../CustomerProfile/CustomerProfile';
@@ -9,6 +10,11 @@ import CustomerProfile from '../CustomerProfile/CustomerProfile';
  */
 const Profile = () => {
   const role = apiClient.getJwtMetadata()?.role;
+  const { search } = useLocation();
+
+  if (new URLSearchParams(search).has('social')) {
+    return <Navigate to={`/app/profile/socials${search}`} replace />;
+  }
 
   if (role === 'CREATOR') return <CreatorProfile />;
 

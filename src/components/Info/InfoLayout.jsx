@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Logo from '../shared/Logo/Logo';
 import { CONTACT_EMAIL, UPDATED_AT } from './legal';
 import styles from './Info.module.css';
 
 const InfoLayout = ({ title, lead, showUpdated = true, children }) => (
   <div className={styles.page}>
     <header className={styles.header}>
-      <Link to="/" className={styles.home}>
-        traffic markering
+      <Link to="/" className={styles.home} aria-label="На доску объявлений">
+        <Logo withText />
       </Link>
       <nav className={styles.nav}>
         <Link to="/info" className={styles.navLink}>

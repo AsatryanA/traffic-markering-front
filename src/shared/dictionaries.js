@@ -10,12 +10,6 @@ export const PLATFORM_LABELS = {
   YOUTUBE_SHORTS: 'YouTube Shorts',
 };
 
-// Готовый список для <select> — порядок фиксированный, чтобы не прыгал между рендерами.
-export const PLATFORM_OPTIONS = Object.entries(PLATFORM_LABELS).map(([value, label]) => ({
-  value,
-  label,
-}));
-
 export const CAMPAIGN_STATUS_LABELS = {
   DRAFT: 'черновик',
   ACTIVE: 'активно',

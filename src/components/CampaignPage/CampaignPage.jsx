@@ -3,12 +3,13 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import apiClient from '../../apiClient';
 import BudgetBar from '../shared/BudgetBar/BudgetBar';
+import FieldError from '../shared/FieldError/FieldError';
 import { formatRubles, formatViews } from '../../shared/money';
-import { CAMPAIGN_STATUS_LABELS, PLATFORM_OPTIONS, formatDate } from '../../shared/dictionaries';
+import { CAMPAIGN_STATUS_LABELS, PLATFORM_LABELS, formatDate } from '../../shared/dictionaries';
+import { detectPlatform } from '../../shared/video';
 import styles from './CampaignPage.module.css';
 
 const emptyForm = {
-  platform: PLATFORM_OPTIONS[0].value,
   videoUrl: '',
   comment: '',
 };
@@ -23,7 +24,9 @@ const CampaignPage = () => {
   const [pageError, setPageError] = useState('');
   const [form, setForm] = useState(emptyForm);
   const [formError, setFormError] = useState('');
+  const [videoUrlError, setVideoUrlError] = useState('');
   const [sending, setSending] = useState(false);
+  const [accounts, setAccounts] = useState(null);
 
   // Роль берём прямо из токена: лишний запрос /api/auth/me публичной странице не нужен.
   const authorized = apiClient.hasLiveToken();
@@ -51,9 +54,23 @@ const CampaignPage = () => {
     loadCampaign();
   }, [loadCampaign]);
 
+  useEffect(() => {
+    if (!isCreator) return;
+    apiClient.instance
+      .get('/api/social/accounts')
+      .then((res) => setAccounts(Array.isArray(res.data) ? res.data : []))
+      .catch(() => setAccounts(null));
+  }, [isCreator]);
+
+  const platform = detectPlatform(form.videoUrl);
+  const hasAccount =
+    accounts === null ||
+    accounts.some((account) => account.platform === platform && account.status === 'ACTIVE');
+
   const setField = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    if (name === 'videoUrl') setVideoUrlError('');
     setFormError('');
   };
 
@@ -61,7 +78,11 @@ const CampaignPage = () => {
     e.preventDefault();
     const videoUrl = form.videoUrl.trim();
     if (!videoUrl) {
-      setFormError('Укажите ссылку на ролик.');
+      setVideoUrlError('Укажите ссылку на ролик');
+      return;
+    }
+    if (!platform) {
+      setVideoUrlError('Площадка не распознана: принимаются YouTube, TikTok и Instagram');
       return;
     }
 
@@ -70,7 +91,6 @@ const CampaignPage = () => {
     try {
       await apiClient.api.apply({
         campaignId: campaign.id,
-        platform: form.platform,
         videoUrl,
         // Пустой комментарий отправлять нечего — на бэке поле необязательное.
         comment: form.comment.trim() || null,
@@ -129,7 +149,7 @@ const CampaignPage = () => {
     const inactive = campaign.status !== 'ACTIVE';
 
     return (
-      <form className={styles.applyForm} onSubmit={handleSubmit}>
+      <form className={styles.applyForm} onSubmit={handleSubmit} noValidate>
         <h2 className={styles.blockTitle}>взять в работу</h2>
         {inactive && (
           <p className={styles.hintBanner}>
@@ -138,22 +158,6 @@ const CampaignPage = () => {
           </p>
         )}
         <label className={styles.label}>
-          Площадка
-          <select
-            name="platform"
-            value={form.platform}
-            onChange={setField}
-            className={styles.input}
-            disabled={sending || inactive}
-          >
-            {PLATFORM_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className={styles.label}>
           Ссылка на ролик *
           <input
             type="url"
@@ -161,14 +165,32 @@ const CampaignPage = () => {
             value={form.videoUrl}
             onChange={setField}
             className={styles.input}
+            aria-invalid={videoUrlError ? 'true' : undefined}
             placeholder="https://youtube.com/shorts/…"
             maxLength={1024}
             disabled={sending || inactive}
-            required
           />
+          <FieldError>{videoUrlError}</FieldError>
           <span className={styles.hint}>
-            по этой ссылке считаются просмотры, за которые начисляются деньги.
+            по этой ссылке считаются просмотры, за которые начисляются деньги. площадка
+            определяется автоматически: YouTube, TikTok или Instagram.
           </span>
+          {form.videoUrl.trim() && !platform && !videoUrlError && (
+            <span className={styles.platformWarn}>
+              площадка по ссылке не распознана.
+            </span>
+          )}
+          {platform && hasAccount && (
+            <span className={styles.platformOk}>площадка: {PLATFORM_LABELS[platform]}</span>
+          )}
+          {platform && !hasAccount && (
+            <span className={styles.platformWarn}>
+              {PLATFORM_LABELS[platform]} не привязан в профиле, отклик не примется.{' '}
+              <Link to="/app/profile" className={styles.inlineLink}>
+                привязать аккаунт
+              </Link>
+            </span>
+          )}
         </label>
         <label className={styles.label}>
           Комментарий заказчику

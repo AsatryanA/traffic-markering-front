@@ -264,12 +264,7 @@ export interface ApplicationCreateRequestDTO {
    */
   campaignId: string;
   /**
-   * Площадка: TELEGRAM, INSTAGRAM, TIKTOK или YOUTUBE_SHORTS
-   * @example "TIKTOK"
-   */
-  platform: "TELEGRAM" | "INSTAGRAM" | "TIKTOK" | "YOUTUBE_SHORTS";
-  /**
-   * Ссылка на выложенный ролик
+   * Ссылка на выложенный ролик; площадка определяется по ней: YouTube, TikTok или Instagram
    * @minLength 0
    * @maxLength 1024
    * @example "https://www.tiktok.com/@demo/video/123"

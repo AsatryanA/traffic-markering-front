@@ -303,6 +303,27 @@
   text-transform: none;
 }
 
+.platformOk,
+.platformWarn {
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.platformOk {
+  color: var(--color-success);
+}
+
+.platformWarn {
+  color: var(--color-danger);
+}
+
+.inlineLink {
+  color: inherit;
+  text-decoration: underline;
+}
+
 .hintBanner {
   margin: 0;
   background: var(--color-surface-alt);

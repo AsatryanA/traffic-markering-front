@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import apiClient from '../../apiClient';
 import Logo from '../shared/Logo/Logo';
+import FieldError from '../shared/FieldError/FieldError';
+import { clearFieldError, hasErrors, validateRequired } from '../../shared/validation';
 import styles from './Login.module.css';
 
 const Login = () => {
@@ -10,6 +12,7 @@ const Login = () => {
   const [loginValue, setLoginValue] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
   async function login(username, pass) {
@@ -25,10 +28,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    if (!loginValue.trim() || !password) {
-      setError('Введите логин и пароль');
-      return;
-    }
+    const nextErrors = {
+      login: validateRequired(loginValue, 'Введите логин'),
+      password: validateRequired(password, 'Введите пароль'),
+    };
+    setErrors(nextErrors);
+    if (hasErrors(nextErrors)) return;
     setLoading(true);
     try {
       await login(loginValue.trim(), password);
@@ -63,30 +68,40 @@ const Login = () => {
       <main className={styles.wrap}>
         <div className={styles.card}>
           <h1 className={styles.title}>вход</h1>
-          <form onSubmit={handleSubmit} className={styles.form}>
+          <form onSubmit={handleSubmit} className={styles.form} noValidate>
             <label className={styles.label}>
               Логин
               <input
                 type="email"
                 value={loginValue}
-                onChange={(e) => setLoginValue(e.target.value)}
+                onChange={(e) => {
+                  setLoginValue(e.target.value);
+                  clearFieldError(setErrors, 'login');
+                }}
                 className={styles.input}
+                aria-invalid={errors.login ? 'true' : undefined}
                 autoComplete="username"
                 placeholder="you@mail.ru"
                 disabled={loading}
                 autoFocus
               />
+              <FieldError>{errors.login}</FieldError>
             </label>
             <label className={styles.label}>
               Пароль
               <input
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  clearFieldError(setErrors, 'password');
+                }}
                 className={styles.input}
+                aria-invalid={errors.password ? 'true' : undefined}
                 autoComplete="current-password"
                 disabled={loading}
               />
+              <FieldError>{errors.password}</FieldError>
             </label>
             {error && <p className={styles.error}>{error}</p>}
             <button type="submit" className={styles.submit} disabled={loading}>

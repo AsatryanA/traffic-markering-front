@@ -1,7 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import apiClient from '../../apiClient';
+import FieldError from '../shared/FieldError/FieldError';
 import { formatDate } from '../../shared/dictionaries';
+import {
+  clearFieldError,
+  hasErrors,
+  validateTelegram,
+  validateWebsite,
+} from '../../shared/validation';
 import styles from './CustomerProfile.module.css';
 
 const emptyForm = {
@@ -33,6 +40,7 @@ const CustomerProfile = () => {
   const [saving, setSaving] = useState(false);
   const [pageError, setPageError] = useState('');
   const [error, setError] = useState('');
+  const [errors, setErrors] = useState({});
 
   const loadProfile = useCallback(async () => {
     try {
@@ -58,13 +66,23 @@ const CustomerProfile = () => {
   const setField = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    clearFieldError(setErrors, name);
     setError('');
   };
+
+  const invalid = (name) => (errors[name] ? 'true' : undefined);
 
   const dirty = Object.keys(form).some((key) => form[key] !== savedForm[key]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const nextErrors = {
+      telegram: validateTelegram(form.telegram),
+      website: validateWebsite(form.website),
+    };
+    setErrors(nextErrors);
+    if (hasErrors(nextErrors)) return;
+
     setSaving(true);
     setError('');
     try {
@@ -112,7 +130,7 @@ const CustomerProfile = () => {
         {profile?.updatedAt ? ` · обновлён ${formatDate(profile.updatedAt)}` : ''}
       </p>
 
-      <form className={styles.card} onSubmit={handleSubmit}>
+      <form className={styles.card} onSubmit={handleSubmit} noValidate>
         <div className={styles.formGrid}>
           <label className={`${styles.label} ${styles.labelWide}`}>
             Компания
@@ -145,9 +163,11 @@ const CustomerProfile = () => {
               value={form.telegram}
               onChange={setField}
               className={styles.input}
+              aria-invalid={invalid('telegram')}
               placeholder="@nickname"
               autoComplete="off"
             />
+            <FieldError>{errors.telegram}</FieldError>
           </label>
           <label className={styles.label}>
             Сайт
@@ -157,9 +177,11 @@ const CustomerProfile = () => {
               value={form.website}
               onChange={setField}
               className={styles.input}
+              aria-invalid={invalid('website')}
               placeholder="https://example.ru"
               autoComplete="off"
             />
+            <FieldError>{errors.website}</FieldError>
           </label>
         </div>
 

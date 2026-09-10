@@ -57,7 +57,13 @@
   color: var(--color-muted);
 }
 
-/* Имя и описание занимают всю ширину сетки — в узкой колонке их неудобно заполнять. */
+
+.labelText {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .labelWide {
   grid-column: 1 / -1;
 }

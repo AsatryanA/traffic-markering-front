@@ -1,34 +1,24 @@
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.5em;
   line-height: 1;
 }
 
-.mark {
-  width: 1.5em;
-  height: 1.5em;
+.svg {
+  display: block;
+  height: 1.6em;
+  width: auto;
   flex: none;
-  fill: var(--color-ink);
 }
 
-.accent {
+.bars {
   fill: var(--color-accent);
 }
 
-.text {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  text-transform: none;
-  color: var(--color-ink);
-  white-space: nowrap;
+.word {
+  fill: var(--color-ink);
 }
 
-.light .mark {
-  fill: #ececea;
-}
-
-.light .text {
-  color: #fff;
+.light .word {
+  fill: #fff;
 }

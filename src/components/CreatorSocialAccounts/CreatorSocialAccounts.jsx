@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import apiClient from '../../apiClient';
+import SocialIcon from '../shared/SocialIcon/SocialIcon';
 import styles from './CreatorSocialAccounts.module.css';
 
 const PLATFORMS = [
@@ -102,8 +103,8 @@ const CreatorSocialAccounts = () => {
   };
 
   return (
-    <section className={styles.wrap}>
-      <h2 className={styles.title}>Привязанные аккаунты</h2>
+    <div className={styles.wrap}>
+      <h1 className={styles.title}>Соцсети</h1>
       <p className={styles.subtitle}>
         Подключайте сколько угодно аккаунтов на каждой площадке — просмотры роликов
         мы считаем по официальному API площадки, а не с ваших слов.
@@ -119,7 +120,10 @@ const CreatorSocialAccounts = () => {
             return (
               <div key={platform.slug} className={styles.platform}>
                 <div className={styles.platformHead}>
-                  <span className={styles.platformName}>{platform.label}</span>
+                  <span className={styles.platformName}>
+                    <SocialIcon name={platform.slug} className={styles.platformIcon} />
+                    {platform.label}
+                  </span>
                   <span className={styles.platformCount}>
                     {connected.length === 0 ? 'нет аккаунтов' : `${connected.length} шт.`}
                   </span>
@@ -169,6 +173,7 @@ const CreatorSocialAccounts = () => {
                   onClick={() => connect(platform.slug)}
                   disabled={pendingSlug === platform.slug}
                 >
+                  <SocialIcon name={platform.slug} />
                   {pendingSlug === platform.slug
                     ? 'Открываем площадку…'
                     : `Подключить ${platform.label}`}
@@ -178,7 +183,7 @@ const CreatorSocialAccounts = () => {
           })}
         </div>
       )}
-    </section>
+    </div>
   );
 };
 

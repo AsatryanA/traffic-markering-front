@@ -35,8 +35,14 @@ const TILES = [
   {
     section: SECTIONS.PROFILE,
     to: '/app/profile',
-    title: 'профиль',
+    title: 'о себе',
     text: 'Контакты и описание — их видит вторая сторона сделки.',
+  },
+  {
+    section: SECTIONS.SOCIALS,
+    to: '/app/profile/socials',
+    title: 'соцсети',
+    text: 'Подключённые аккаунты площадок, по которым считаются просмотры.',
   },
 ];
 

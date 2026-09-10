@@ -5,6 +5,8 @@ import toast from 'react-hot-toast';
 import apiClient from '../../apiClient';
 import BudgetBar from '../shared/BudgetBar/BudgetBar';
 import CreatorSocials from '../shared/CreatorSocials/CreatorSocials';
+import FieldError from '../shared/FieldError/FieldError';
+import { clearFieldError, hasErrors, validateRequired } from '../../shared/validation';
 import {
   formatRubInput,
   formatRubles,
@@ -75,6 +77,7 @@ const CampaignEditor = () => {
   const [saving, setSaving] = useState(false);
   const [pageError, setPageError] = useState('');
   const [error, setError] = useState('');
+  const [errors, setErrors] = useState({});
   const [applications, setApplications] = useState([]);
   const [applicationsLoading, setApplicationsLoading] = useState(!isNew);
   const [applicationsError, setApplicationsError] = useState('');
@@ -148,14 +151,18 @@ const CampaignEditor = () => {
   const setField = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    clearFieldError(setErrors, name);
     setError('');
   };
 
   const setMoneyField = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: formatRubInput(value) }));
+    clearFieldError(setErrors, name);
     setError('');
   };
+
+  const invalid = (name) => (errors[name] ? 'true' : undefined);
 
   const handlePhotoChange = async (e) => {
     const file = e.target.files?.[0];
@@ -187,6 +194,7 @@ const CampaignEditor = () => {
         },
       });
       setForm((prev) => ({ ...prev, photoKey: key }));
+      clearFieldError(setErrors, 'photoKey');
       setPhotoPreview(URL.createObjectURL(file));
       toast.success('Фотография загружена — не забудьте сохранить объявление');
     } catch (err) {
@@ -208,15 +216,18 @@ const CampaignEditor = () => {
     const ratePerThousandKopecks = rubToKopecks(form.rateRub);
     const budgetKopecks = rubToKopecks(form.budgetRub);
 
-    if (!title) return setError('Укажите заголовок объявления.');
-    if (!description) return setError('Опишите задачу для криатора.');
-    if (!form.photoKey) return setError('Загрузите фотографию объявления.');
-    if (ratePerThousandKopecks == null || ratePerThousandKopecks <= 0) {
-      return setError('Ставка за 1000 просмотров должна быть больше нуля.');
-    }
-    if (budgetKopecks == null || budgetKopecks < 0) {
-      return setError('Бюджет — сумма в рублях, ноль или больше.');
-    }
+    const nextErrors = {
+      title: validateRequired(title, 'Укажите заголовок'),
+      description: validateRequired(description, 'Опишите задачу для криатора'),
+      photoKey: form.photoKey ? '' : 'Загрузите фотографию',
+      rateRub:
+        ratePerThousandKopecks == null || ratePerThousandKopecks <= 0
+          ? 'Ставка должна быть больше нуля'
+          : '',
+      budgetRub: budgetKopecks == null || budgetKopecks < 0 ? 'Сумма в рублях, ноль или больше' : '',
+    };
+    setErrors(nextErrors);
+    if (hasErrors(nextErrors)) return;
 
     setSaving(true);
     setError('');
@@ -344,7 +355,7 @@ const CampaignEditor = () => {
         </section>
       )}
 
-      <form className={styles.card} onSubmit={handleSubmit}>
+      <form className={styles.card} onSubmit={handleSubmit} noValidate>
         <h2 className={styles.cardTitle}>Условия</h2>
         <div className={styles.formGrid}>
           <div className={`${styles.label} ${styles.labelWide}`}>
@@ -392,6 +403,7 @@ const CampaignEditor = () => {
                   JPEG, PNG, WebP или GIF до 10 МБ. На доске превью 100 px высотой,
                   пустые края зальются размытым фоном.
                 </span>
+                <FieldError>{errors.photoKey}</FieldError>
               </div>
             </div>
           </div>
@@ -403,11 +415,12 @@ const CampaignEditor = () => {
               value={form.title}
               onChange={setField}
               className={styles.input}
+              aria-invalid={invalid('title')}
               placeholder="Интеграция в Shorts про кофе"
               maxLength={255}
               autoComplete="off"
-              required
             />
+            <FieldError>{errors.title}</FieldError>
           </label>
           <label className={`${styles.label} ${styles.labelWide}`}>
             Описание задачи *
@@ -416,10 +429,11 @@ const CampaignEditor = () => {
               value={form.description}
               onChange={setField}
               className={styles.textarea}
+              aria-invalid={invalid('description')}
               placeholder="Что показать, что сказать, какие обязательные тезисы и ссылки."
               rows={6}
-              required
             />
+            <FieldError>{errors.description}</FieldError>
           </label>
           <label className={styles.label}>
             Ставка за 1000 просмотров, ₽ *
@@ -430,10 +444,11 @@ const CampaignEditor = () => {
               value={form.rateRub}
               onChange={setMoneyField}
               className={styles.input}
+              aria-invalid={invalid('rateRub')}
               placeholder="350"
               autoComplete="off"
-              required
             />
+            <FieldError>{errors.rateRub}</FieldError>
           </label>
           <label className={styles.label}>
             Бюджет, ₽ *
@@ -444,10 +459,11 @@ const CampaignEditor = () => {
               value={form.budgetRub}
               onChange={setMoneyField}
               className={styles.input}
+              aria-invalid={invalid('budgetRub')}
               placeholder="50 000"
               autoComplete="off"
-              required
             />
+            <FieldError>{errors.budgetRub}</FieldError>
             <span className={styles.hint}>
               Больше этой суммы криаторам не начислится: кончился бюджет — начисления обрезаются.
             </span>

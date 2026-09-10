@@ -48,31 +48,77 @@
 }
 
 .user {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
-  align-items: baseline;
-  gap: 7px;
+  align-items: center;
+  gap: 10px;
+  max-width: 260px;
+  padding: 4px 14px 4px 4px;
+  border-radius: var(--pill-radius);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.user:hover {
+  border-color: var(--color-accent);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.user:focus {
+  outline: none;
+}
+
+.user:focus-visible {
+  box-shadow: 0 0 0 3px rgba(244, 75, 15, 0.45);
+}
+
+.userAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.userText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   min-width: 0;
 }
 
 .userName {
-  color: #fff;
-  font-size: 0.95rem;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
   font-weight: 600;
+  line-height: 1;
+  color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 220px;
 }
 
 .userRole {
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  color: var(--color-accent);
   white-space: nowrap;
-}
-
-.userRole::before {
-  content: '· ';
 }
 
 .logoLink {
@@ -114,16 +160,16 @@
 }
 
 .section {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.1rem;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 2px;
 }
 
 .sectionTitle {
-  margin: 0 0 0.5rem;
-  font-size: 0.68rem;
-  font-weight: 700;
+  margin: 0 0 6px 12px;
+  font-size: 0.66rem;
+  font-weight: 600;
   letter-spacing: var(--label-tracking);
   text-transform: uppercase;
   color: var(--color-muted);
@@ -132,16 +178,14 @@
 .navLink {
   display: flex;
   align-items: center;
-  line-height: 1;
-  padding: calc(0.55rem + 1px) 0.9rem calc(0.55rem - 1px);
-  border-radius: var(--pill-radius);
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 600;
+  line-height: 1.2;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 500;
   color: var(--color-ink-soft);
   text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: var(--action-tracking);
   transition: background 0.15s ease, color 0.15s ease;
 }
 
@@ -158,11 +202,11 @@
   box-shadow: var(--focus-ring);
 }
 
-/* Активный пункт — залитая чернильная пилюля: тот же контраст, что у кнопок. */
 .navLinkActive,
 .navLinkActive:hover {
   background: var(--color-ink);
-  color: var(--color-surface);
+  color: #fff;
+  font-weight: 600;
 }
 
 .logout {
@@ -171,24 +215,23 @@
   justify-content: center;
   line-height: 1;
   margin-top: auto;
-  padding: 0.55rem 1rem;
+  padding: 10px 14px;
   border: 1px solid var(--color-field-border);
-  border-radius: var(--pill-radius);
+  border-radius: 10px;
   background: transparent;
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--action-tracking);
-  color: var(--color-muted);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-ink-soft);
   cursor: pointer;
   text-align: center;
-  transition: border-color 0.15s ease, color 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
 .logout:hover {
-  border-color: var(--color-danger);
-  color: var(--color-danger);
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+  background: var(--color-surface-alt);
 }
 
 .content {
@@ -214,13 +257,8 @@
     margin-left: 0;
   }
 
-  /* Роль на узком экране не помещается рядом с бургером — оставляем только имя. */
-  .userRole {
-    display: none;
-  }
-
-  .userName {
-    max-width: 120px;
+  .user {
+    max-width: 180px;
   }
 
   .burger {
@@ -307,7 +345,13 @@
 }
 
 @media (max-width: 520px) {
-  .userName {
+  .user {
+    padding: 4px;
+    gap: 0;
+    border-color: transparent;
+  }
+
+  .userText {
     display: none;
   }
 

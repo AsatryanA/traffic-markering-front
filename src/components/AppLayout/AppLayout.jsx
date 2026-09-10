@@ -28,7 +28,10 @@ const MENU = [
   {
     title: 'профиль',
     section: SECTIONS.PROFILE,
-    items: [{ to: '/app/profile', label: 'Мой профиль' }],
+    items: [
+      { to: '/app/profile', label: 'О себе' },
+      { to: '/app/profile/socials', label: 'Соцсети', section: SECTIONS.SOCIALS },
+    ],
   },
 ];
 
@@ -41,7 +44,14 @@ const AppLayout = () => {
   const role = jwtMeta?.role;
   const userName = jwtMeta?.name || jwtMeta?.username;
   const allowedSections = getAllowedSections(role);
-  const visibleMenu = MENU.filter((section) => allowedSections.includes(section.section));
+  const visibleMenu = MENU.filter((section) => allowedSections.includes(section.section)).map(
+    (section) => ({
+      ...section,
+      items: section.items.filter(
+        (item) => !item.section || allowedSections.includes(item.section)
+      ),
+    })
+  );
 
   // Закрываем мобильное меню при переходе на другую страницу.
   useEffect(() => {
@@ -115,21 +125,26 @@ const AppLayout = () => {
               <span className={`${styles.burgerLine} ${menuOpen ? styles.burgerLineHidden : ''}`} />
               <span className={`${styles.burgerLine} ${menuOpen ? styles.burgerLineBottom : ''}`} />
             </button>
-            {userName && (
-              <span className={styles.user}>
-                <span className={styles.userName}>{userName}</span>
-                {role && <span className={styles.userRole}>{ROLE_LABELS[role] || role}</span>}
-              </span>
-            )}
           </div>
           <span
             className={styles.logoLink}
             onClick={() => navigate('/app')}
             role="button"
-            aria-label="social traffic"
+            aria-label="offer"
           >
             <Logo light withText />
           </span>
+          {userName && (
+            <NavLink to="/app/profile" className={styles.user} title={userName}>
+              <span className={styles.userAvatar} aria-hidden="true">
+                {userName.trim().charAt(0).toUpperCase()}
+              </span>
+              <span className={styles.userText}>
+                <span className={styles.userName}>{userName}</span>
+                {role && <span className={styles.userRole}>{ROLE_LABELS[role] || role}</span>}
+              </span>
+            </NavLink>
+          )}
         </div>
       </header>
 

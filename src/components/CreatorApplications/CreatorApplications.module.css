@@ -50,7 +50,7 @@
 }
 
 .refreshBtn:hover:not(:disabled) {
-  background: var(--color-page);
+  background: var(--color-surface-alt);
 }
 
 .refreshBtn:disabled {

@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import apiClient from '../../apiClient';
-import CreatorSocialAccounts from '../CreatorSocialAccounts/CreatorSocialAccounts';
+import SocialIcon from '../shared/SocialIcon/SocialIcon';
+import FieldError from '../shared/FieldError/FieldError';
 import { formatDate } from '../../shared/dictionaries';
+import { clearFieldError, hasErrors, validateTelegram } from '../../shared/validation';
 import styles from './CreatorProfile.module.css';
 
 const emptyForm = {
@@ -38,6 +40,7 @@ const CreatorProfile = () => {
   const [saving, setSaving] = useState(false);
   const [pageError, setPageError] = useState('');
   const [error, setError] = useState('');
+  const [errors, setErrors] = useState({});
 
   const loadProfile = useCallback(async () => {
     try {
@@ -63,6 +66,7 @@ const CreatorProfile = () => {
   const setField = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    clearFieldError(setErrors, name);
     setError('');
   };
 
@@ -70,6 +74,10 @@ const CreatorProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const nextErrors = { telegram: validateTelegram(form.telegram) };
+    setErrors(nextErrors);
+    if (hasErrors(nextErrors)) return;
+
     setSaving(true);
     setError('');
     try {
@@ -119,7 +127,7 @@ const CreatorProfile = () => {
         {profile?.updatedAt ? ` · обновлён ${formatDate(profile.updatedAt)}` : ''}
       </p>
 
-      <form className={styles.card} onSubmit={handleSubmit}>
+      <form className={styles.card} onSubmit={handleSubmit} noValidate>
         <div className={styles.formGrid}>
           <label className={`${styles.label} ${styles.labelWide}`}>
             Отображаемое имя
@@ -145,19 +153,27 @@ const CreatorProfile = () => {
             />
           </label>
           <label className={styles.label}>
-            Telegram
+            <span className={styles.labelText}>
+              <SocialIcon name="telegram" />
+              Telegram
+            </span>
             <input
               type="text"
               name="telegram"
               value={form.telegram}
               onChange={setField}
               className={styles.input}
+              aria-invalid={errors.telegram ? 'true' : undefined}
               placeholder="@nickname"
               autoComplete="off"
             />
+            <FieldError>{errors.telegram}</FieldError>
           </label>
           <label className={styles.label}>
-            Instagram
+            <span className={styles.labelText}>
+              <SocialIcon name="instagram" />
+              Instagram
+            </span>
             <input
               type="text"
               name="instagram"
@@ -169,7 +185,10 @@ const CreatorProfile = () => {
             />
           </label>
           <label className={styles.label}>
-            TikTok
+            <span className={styles.labelText}>
+              <SocialIcon name="tiktok" />
+              TikTok
+            </span>
             <input
               type="text"
               name="tiktok"
@@ -181,7 +200,10 @@ const CreatorProfile = () => {
             />
           </label>
           <label className={styles.label}>
-            YouTube Shorts
+            <span className={styles.labelText}>
+              <SocialIcon name="youtube" />
+              YouTube Shorts
+            </span>
             <input
               type="text"
               name="youtubeShorts"
@@ -211,8 +233,6 @@ const CreatorProfile = () => {
           </button>
         </div>
       </form>
-
-      <CreatorSocialAccounts />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import apiClient from '../../../apiClient';
+import SocialIcon from '../SocialIcon/SocialIcon';
 import styles from './CreatorSocials.module.css';
 
 // Порядок площадок фиксирован: заказчик каждый раз видит их на одних и тех же местах.
@@ -65,7 +66,10 @@ const CreatorSocials = ({ userId }) => {
                 <ul className={styles.socials}>
                   {filled.map((field) => (
                     <li key={field.key} className={styles.social}>
-                      <span className={styles.socialLabel}>{field.label}</span>
+                      <span className={styles.socialLabel}>
+                        <SocialIcon name={field.key} className={styles.socialIcon} />
+                        {field.label}
+                      </span>
                       <span className={styles.socialValue}>{profile[field.key]}</span>
                     </li>
                   ))}

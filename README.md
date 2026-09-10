@@ -1,4 +1,4 @@
-# traffic markering — фронтенд
+# offer — фронтенд
 
 Веб-интерфейс платформы рекламных интеграций.
 
@@ -132,7 +132,7 @@ VITE_API_URL=https://api.example.ru pnpm run api
 ```
 src/
   index.jsx              точка входа: BrowserRouter + Toaster
-  index.css              reset, системный шрифт и CSS-переменные проекта
+  index.css              reset, фирменный шрифт Vasted (fallback Unbounded/Manrope) и CSS-переменные брендбука
   App.jsx                маршруты, нормализация пути, title/description/robots
   apiClient.jsx          axios-клиент, JWT, интерцепторы
   config.jsx             адрес бэкенда

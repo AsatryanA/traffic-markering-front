@@ -7,7 +7,7 @@ import styles from './Info.module.css';
 const Privacy = () => (
   <InfoLayout
     title="Политика конфиденциальности"
-    lead={`Документ описывает, какие данные сервис traffic markering (${SITE_URL}) собирает, зачем, как хранит и как их удалить. Оператор данных — ${OPERATOR}.`}
+    lead={`Документ описывает, какие данные сервис offer (${SITE_URL}) собирает, зачем, как хранит и как их удалить. Оператор данных — ${OPERATOR}.`}
   >
     <section className={styles.section}>
       <h2 className={styles.heading}>1. Какие данные мы собираем</h2>
