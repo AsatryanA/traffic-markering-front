@@ -1,7 +1,5 @@
-/* Полная карточка объявления + блок отклика. */
-
 .wrap {
-  max-width: var(--page-max-width);
+  max-width: 760px;
   width: 100%;
   margin: 0 auto;
   padding: 1rem 12px 3rem;
@@ -28,19 +26,6 @@
 
 .backLink:hover {
   color: var(--color-ink);
-}
-
-.layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
-  gap: 18px;
-  align-items: start;
-}
-
-@media (max-width: 900px) {
-  .layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 /* ── карточка объявления ── */
@@ -174,37 +159,15 @@
 }
 
 /* ── блок отклика ── */
-.side {
-  position: sticky;
-  top: 16px;
-}
-
-@media (max-width: 900px) {
-  .side {
-    position: static;
-  }
-}
-
-.applyForm,
-.applyNotice {
+.applyBlock {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 12px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--card-radius);
-  box-shadow: var(--card-shadow);
-  padding: 20px;
-}
-
-.blockTitle {
-  margin: 0 0 2px;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: var(--title-tracking);
-  color: var(--color-ink);
+  margin-top: 20px;
+  padding: 18px 20px;
+  background: var(--color-surface-alt);
+  border-radius: var(--field-radius);
 }
 
 .noticeText {
@@ -218,6 +181,26 @@
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+.applyButton {
+  align-self: stretch;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--action-tracking);
+  color: var(--color-surface);
+  background: var(--color-ink);
+  border-radius: var(--pill-radius);
+  padding: 14px 26px;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.applyButton:hover {
+  background: var(--color-accent);
 }
 
 .primaryLink {
@@ -256,112 +239,6 @@
 .secondaryLink:hover {
   background: var(--color-ink);
   color: var(--color-surface);
-}
-
-.label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--label-tracking);
-  color: var(--color-muted);
-}
-
-.input {
-  font-family: inherit;
-  font-size: 0.92rem;
-  color: var(--color-ink);
-  padding: 9px 12px;
-  border: 1px solid var(--color-field-border);
-  border-radius: var(--field-radius);
-  background: var(--color-surface);
-  min-width: 0;
-}
-
-.input:focus {
-  outline: none;
-  border-color: var(--color-ink);
-  box-shadow: var(--focus-ring);
-}
-
-.input:disabled {
-  background: var(--color-surface-alt);
-  cursor: not-allowed;
-}
-
-.textarea {
-  resize: vertical;
-  line-height: 1.45;
-}
-
-.hint {
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--color-muted);
-  text-transform: none;
-}
-
-.platformOk,
-.platformWarn {
-  font-size: 0.74rem;
-  font-weight: 600;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.platformOk {
-  color: var(--color-success);
-}
-
-.platformWarn {
-  color: var(--color-danger);
-}
-
-.inlineLink {
-  color: inherit;
-  text-decoration: underline;
-}
-
-.hintBanner {
-  margin: 0;
-  background: var(--color-surface-alt);
-  color: var(--color-ink-soft);
-  border-radius: var(--field-radius);
-  padding: 10px 14px;
-  font-size: 0.82rem;
-  line-height: 1.4;
-}
-
-.error {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--color-danger);
-}
-
-.submit {
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: var(--action-tracking);
-  color: var(--color-surface);
-  background: var(--color-ink);
-  border: none;
-  border-radius: var(--pill-radius);
-  padding: 11px 22px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.submit:hover:not(:disabled) {
-  background: var(--color-accent);
-}
-
-.submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 /* ── состояния ── */

@@ -4,6 +4,7 @@ import apiClient from './apiClient';
 import styles from './App.module.css';
 import Board from './components/Board/Board';
 import CampaignPage from './components/CampaignPage/CampaignPage';
+import ApplyPage from './components/ApplyPage/ApplyPage';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import NotFound from './components/NotFound/NotFound';
@@ -36,7 +37,11 @@ const KNOWN_PATHS = new Set([
 ]);
 
 // Динамические маршруты: карточка объявления и редактор объявления.
-const DYNAMIC_PATHS = [/^\/campaigns\/[^/]+$/, /^\/app\/campaigns\/[^/]+$/];
+const DYNAMIC_PATHS = [
+  /^\/campaigns\/[^/]+$/,
+  /^\/campaigns\/[^/]+\/apply$/,
+  /^\/app\/campaigns\/[^/]+$/,
+];
 
 // Заголовок и описание вкладки по пути. Ключ — уже нормализованный pathname.
 const PAGE_SEO = {
@@ -99,7 +104,10 @@ function App() {
       description: 'Платформа рекламных интеграций offer.',
     };
     // Личный кабинет и несуществующие адреса в выдаче не нужны.
-    const isPrivatePage = !isKnownPage || normalizedPathname.startsWith('/app');
+    const isPrivatePage =
+      !isKnownPage ||
+      normalizedPathname.startsWith('/app') ||
+      normalizedPathname.endsWith('/apply');
 
     document.title = seo.title;
     upsertMetaTag('meta[name="description"]', {
@@ -129,6 +137,7 @@ function App() {
           element={apiClient.hasLiveToken() ? <Navigate to="/app" replace /> : <Board />}
         />
         <Route path="/campaigns/:publicId" element={<CampaignPage />} />
+        <Route path="/campaigns/:publicId/apply" element={<ApplyPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/info" element={<Info />} />
