@@ -142,11 +142,13 @@ const ApplyPage = () => {
             / 1000 просмотров
           </p>
 
-          <p className={styles.hintBanner}>
-            оплачиваются только просмотры из региона «
-            {REGION_LABELS[campaign.region] || campaign.regionDescription || campaign.region}» —
-            просмотры из других стран в начисление не идут.
-          </p>
+          {(campaign.region || campaign.regionDescription) && (
+            <p className={styles.hintBanner}>
+              оплачиваются только просмотры из региона «
+              {REGION_LABELS[campaign.region] || campaign.regionDescription || campaign.region}» —
+              просмотры из других стран в начисление не идут.
+            </p>
+          )}
 
           {inactive && (
             <p className={styles.hintBanner}>
