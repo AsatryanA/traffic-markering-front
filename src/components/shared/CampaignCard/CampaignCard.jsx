@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import BudgetBar from '../BudgetBar/BudgetBar';
 import { formatRubles } from '../../../shared/money';
-import { formatDate } from '../../../shared/dictionaries';
+import { formatDate, REGION_LABELS } from '../../../shared/dictionaries';
 import styles from './CampaignCard.module.css';
 
 // «3 отклика» / «5 откликов» — без склонения число рядом со словом читается как ошибка.
@@ -52,8 +52,10 @@ const CampaignCard = ({ campaign, to }) => {
         <span className={styles.rateUnit}> / 1000 просмотров</span>
       </p>
 
-      {campaign.regionDescription && (
-        <span className={styles.region}>{campaign.regionDescription}</span>
+      {(campaign.regionDescription || campaign.region) && (
+        <span className={styles.region}>
+          {campaign.regionDescription || REGION_LABELS[campaign.region] || campaign.region}
+        </span>
       )}
 
       <BudgetBar
